@@ -186,6 +186,8 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         
         
         if squat_counter >= 2:
+            with open("exercise.txt", "w") as f:
+                f.write("squat")
             squat_display_time = time.time()
             squat_completed = True
             biceps_left_counter = 0
@@ -196,6 +198,8 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if biceps_right_counter >= 5:
+            with open("exercise.txt", "w") as f:
+                f.write("biceps_right")
             biceps_right_display_time = time.time()
             biceps_right_completed = True
             biceps_right_counter = 0
@@ -205,6 +209,8 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if biceps_left_counter >= 5:
+            with open("exercise.txt", "w") as f:
+                f.write("biceps_left")
             biceps_left_display_time = time.time()
             biceps_left_completed = True
             biceps_left_counter = 0
@@ -214,6 +220,8 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if triceps_right_counter >= 5:
+            with open("exercise.txt", "w") as f:
+                f.write("triceps_right")
             triceps_right_display_time = time.time()
             triceps_right_completed = True
             biceps_left_counter = 0
@@ -223,6 +231,8 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if triceps_left_counter >= 5:
+            with open("exercise.txt", "w") as f:
+                f.write("triceps_left")
             triceps_left_display_time = time.time()
             triceps_left_completed = True
             biceps_left_counter = 0
@@ -232,6 +242,8 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if back_counter >= 5:
+            with open("exercise.txt", "w") as f:
+                f.write("back")
             back_display_time = time.time()
             back_completed = True
             biceps_left_counter = 0
