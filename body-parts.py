@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+import time
 
 # Initialize MediaPipe Pose and Drawing utilities
 mp_drawing = mp.solutions.drawing_utils
@@ -25,6 +26,13 @@ triceps_right_counter = 0
 triceps_left_counter = 0
 back_counter = 0
 
+squat_completed = False
+biceps_right_completed = False
+biceps_left_completed = False
+triceps_right_completed = False
+triceps_left_completed = False
+back_completed = False
+
 # Initialize statuses
 squat_status = "Up"
 biceps_right_status = "Down"
@@ -32,6 +40,14 @@ biceps_left_status = "Down"
 triceps_right_status = "Down"
 triceps_left_status = "Down"
 back_status = "Down"
+
+#initialize display times
+squat_display_time = None
+biceps_right_display_time = None
+biceps_left_display_time = None
+triceps_right_display_time = None
+triceps_left_display_time = None
+back_display_time = None
 
 # Start video capture
 cap = cv2.VideoCapture(0)
@@ -106,9 +122,6 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             if right_bicep_angle < 35  and biceps_right_status == "Up" and right_elbow[1] > right_shoulder[1]:
                 biceps_right_counter += 1
                 biceps_right_status = "Down"
-                biceps_right_status = "Down"
-                biceps_left_status = "Down"
-                triceps_left_status = "Down"
                 back_status = "Down"
                 
 
@@ -117,9 +130,6 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             if left_bicep_angle < 35 and biceps_left_status == "Up" and left_elbow[1] > left_shoulder[1]:
                 biceps_left_counter += 1
                 biceps_left_status = "Down"
-                biceps_right_status = "Down"
-                triceps_right_status = "Down"
-                triceps_left_status = "Down"
                 back_status = "Down"
 
             if right_tricep_angle < 100 and triceps_right_status == "Down" and right_elbow[1] > right_shoulder[1]:
@@ -127,9 +137,6 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             if right_tricep_angle > 165 and triceps_right_status == "Up" and right_elbow[1] > right_shoulder[1]:
                 triceps_right_counter += 1
                 triceps_right_status = "Down"
-                biceps_left_status = "Down"
-                biceps_right_status = "Down"
-                triceps_left_status = "Down"
                 back_status = "Down"
 
             if left_tricep_angle < 100 and triceps_left_status == "Down" and left_elbow[1] > left_shoulder[1]:
@@ -137,9 +144,6 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             if left_tricep_angle > 165 and triceps_left_status == "Up" and left_elbow[1] > left_shoulder[1]:
                 triceps_left_counter += 1
                 triceps_left_status = "Down"
-                biceps_left_status = "Down"
-                biceps_right_status = "Down"
-                triceps_right_status = "Down"
                 back_status = "Down"
 
             #back excercise
@@ -158,19 +162,19 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                 back_status = "Up"
 
 
-            # Display the counters on the frame
-            cv2.putText(image, f'Squats: {squat_counter}', (50, 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
-            cv2.putText(image, f'Biceps Right: {biceps_right_counter}', (50, 100), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-            cv2.putText(image, f'Biceps Left: {biceps_left_counter}', (50, 150), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-            cv2.putText(image, f'Tricpes Right: {triceps_right_counter}', (50, 200), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
-            cv2.putText(image, f'Tricpes Left: {triceps_left_counter}', (50, 250), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
-            cv2.putText(image, f'Back: {back_counter}', (50, 300), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2, cv2.LINE_AA)
+            # # Display the counters on the frame
+            # cv2.putText(image, f'Squats: {squat_counter}', (50, 50), 
+            #             cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+            # cv2.putText(image, f'Biceps Right: {biceps_right_counter}', (50, 100), 
+            #             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            # cv2.putText(image, f'Biceps Left: {biceps_left_counter}', (50, 150), 
+            #             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            # cv2.putText(image, f'Tricpes Right: {triceps_right_counter}', (50, 200), 
+            #             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            # cv2.putText(image, f'Tricpes Left: {triceps_left_counter}', (50, 250), 
+            #             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            # cv2.putText(image, f'Back: {back_counter}', (50, 300), 
+            #             cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2, cv2.LINE_AA)
             
         except Exception as e:
             print(e)
@@ -180,6 +184,118 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                                   mp_drawing.DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=2),
                                   mp_drawing.DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2))
         
+        
+        if squat_counter >= 2:
+            squat_display_time = time.time()
+            squat_completed = True
+            biceps_left_counter = 0
+            biceps_right_counter = 0
+            triceps_left_counter = 0
+            triceps_right_counter = 0
+            back_counter = 0
+            squat_counter = 0
+
+        if biceps_right_counter >= 5:
+            biceps_right_display_time = time.time()
+            biceps_right_completed = True
+            biceps_right_counter = 0
+            triceps_left_counter = 0
+            triceps_right_counter = 0
+            back_counter = 0
+            squat_counter = 0
+
+        if biceps_left_counter >= 5:
+            biceps_left_display_time = time.time()
+            biceps_left_completed = True
+            biceps_left_counter = 0
+            triceps_left_counter = 0
+            triceps_right_counter = 0
+            back_counter = 0
+            squat_counter = 0
+
+        if triceps_right_counter >= 5:
+            triceps_right_display_time = time.time()
+            triceps_right_completed = True
+            biceps_left_counter = 0
+            biceps_right_counter = 0
+            triceps_right_counter = 0
+            back_counter = 0
+            squat_counter = 0
+
+        if triceps_left_counter >= 5:
+            triceps_left_display_time = time.time()
+            triceps_left_completed = True
+            biceps_left_counter = 0
+            biceps_right_counter = 0
+            triceps_left_counter = 0
+            back_counter = 0
+            squat_counter = 0
+
+        if back_counter >= 5:
+            back_display_time = time.time()
+            back_completed = True
+            biceps_left_counter = 0
+            biceps_right_counter = 0
+            triceps_left_counter = 0
+            triceps_right_counter = 0
+            back_counter = 0
+            squat_counter = 0
+        
+
+        try:
+            if squat_completed and squat_display_time > time.time() - 3:
+                cv2.putText(image, "Squat completed", (50, 50), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            elif squat_completed:
+                squat_completed = False
+        except:
+            pass
+        
+        try:
+            if biceps_right_completed and biceps_right_display_time > time.time() - 3:
+                cv2.putText(image, "Right biceps completed", (50, 50), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            elif biceps_right_completed:
+                biceps_right_completed = False
+        except:
+            pass
+        
+        try:
+            if biceps_left_completed and biceps_left_display_time > time.time() - 3:
+                cv2.putText(image, "Left biceps completed", (50, 50), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)    
+            elif biceps_left_completed:
+                biceps_left_completed = False
+        except:
+            pass
+        
+        try:
+            if triceps_right_completed and triceps_right_display_time > time.time() - 3:
+                cv2.putText(image, "Right triceps completed", (50, 50), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            elif triceps_right_completed:
+                triceps_right_completed = False
+        except:
+            pass
+        
+        try:
+            if triceps_left_completed and triceps_left_display_time > time.time() - 3:
+                cv2.putText(image, "Left triceps completed", (50, 50), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            elif triceps_left_completed:
+                triceps_left_completed = False
+        except:
+            pass
+        
+        try:
+            if back_completed and back_display_time > time.time() - 3:
+                cv2.putText(image, "Back completed", (50, 50), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            elif back_completed:
+                back_completed = False
+        except:
+            pass
+
         # Display the resulting frame
         cv2.imshow('Exercise Counter', image)
 
