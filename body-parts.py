@@ -49,6 +49,16 @@ triceps_right_display_time = None
 triceps_left_display_time = None
 back_display_time = None
 
+#excercise completion dictionary
+completion_dict = {
+            "squat": 0,
+            "biceps_right": 0,
+            "biceps_left": 0,
+            "triceps_right": 0,
+            "triceps_left": 0,
+            "back": 0
+        }
+
 # Start video capture
 cap = cv2.VideoCapture(0)
 
@@ -184,10 +194,9 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                                   mp_drawing.DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=2),
                                   mp_drawing.DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2))
         
-        
+
         if squat_counter >= 2:
-            with open("exercise.txt", "w") as f:
-                f.write("squat")
+            completion_dict["squat"] += 1
             squat_display_time = time.time()
             squat_completed = True
             biceps_left_counter = 0
@@ -198,8 +207,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if biceps_right_counter >= 5:
-            with open("exercise.txt", "w") as f:
-                f.write("biceps_right")
+            completion_dict["biceps_right"] += 1
             biceps_right_display_time = time.time()
             biceps_right_completed = True
             biceps_right_counter = 0
@@ -209,8 +217,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if biceps_left_counter >= 5:
-            with open("exercise.txt", "w") as f:
-                f.write("biceps_left")
+            completion_dict["biceps_left"] += 1
             biceps_left_display_time = time.time()
             biceps_left_completed = True
             biceps_left_counter = 0
@@ -220,8 +227,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if triceps_right_counter >= 5:
-            with open("exercise.txt", "w") as f:
-                f.write("triceps_right")
+            completion_dict["triceps_right"] += 1
             triceps_right_display_time = time.time()
             triceps_right_completed = True
             biceps_left_counter = 0
@@ -231,8 +237,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if triceps_left_counter >= 5:
-            with open("exercise.txt", "w") as f:
-                f.write("triceps_left")
+            completion_dict["triceps_left"] += 1
             triceps_left_display_time = time.time()
             triceps_left_completed = True
             biceps_left_counter = 0
@@ -242,8 +247,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             squat_counter = 0
 
         if back_counter >= 5:
-            with open("exercise.txt", "w") as f:
-                f.write("back")
+            completion_dict["back"] += 1
             back_display_time = time.time()
             back_completed = True
             biceps_left_counter = 0
@@ -307,6 +311,10 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                 back_completed = False
         except:
             pass
+
+        # write the dict into a json file called exercise.json
+        with open("exercise.json", "w") as f:
+            f.write(str(completion_dict))
 
         # Display the resulting frame
         cv2.imshow('Exercise Counter', image)
