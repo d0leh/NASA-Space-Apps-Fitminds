@@ -31,8 +31,4 @@ while True:
         cnt += 1 
     except Exception as e:
         print(f"An error occurred: {e}")
-<<<<<<< HEAD
         time.sleep(5)
-=======
-        time.sleep(5)
->>>>>>> 3826d140ce31bc1dfca226d54681d2a4dbb0454e
