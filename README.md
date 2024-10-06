@@ -23,6 +23,9 @@ The smart fitness machine combines hardware and software to create an interactiv
 - A camera tracks the astronaut’s movements and counts repetitions.
 - All workout data is sent to a mobile app through an API, allowing astronauts to monitor their progress.
 
+![Fitmind CV](./images/fitmind.jpeg)
+
+
 ### 4. Virtual Reality (VR)
 - Astronauts can wear a **VR headset** to work out in Earth-like environments or participate in interactive games.
 - This feature adds fun to workouts and helps reduce mental stress by simulating familiar settings.
