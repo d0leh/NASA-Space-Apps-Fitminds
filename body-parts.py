@@ -265,7 +265,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         try:
             if squat_completed and squat_display_time > time.time() - 3:
                 # Bottom center for squat
-                cv2.putText(image, "Squat completed", 
+                cv2.putText(image, "Squat", 
                             (image.shape[1] // 2 - 100, image.shape[0] - 50),  # Bottom center
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif squat_completed:
@@ -276,7 +276,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         try:
             if biceps_right_completed and biceps_right_display_time > time.time() - 3:
                 # Top right for right biceps
-                cv2.putText(image, "Right biceps completed", 
+                cv2.putText(image, "Right biceps", 
                             (image.shape[1] - 300, 50),  # Top right
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif biceps_right_completed:
@@ -287,7 +287,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         try:
             if biceps_left_completed and biceps_left_display_time > time.time() - 3:
                 # Top left for left biceps
-                cv2.putText(image, "Left biceps completed", 
+                cv2.putText(image, "Left biceps", 
                             (50, 50),  # Top left
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)    
             elif biceps_left_completed:
@@ -298,7 +298,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         try:
             if triceps_right_completed and triceps_right_display_time > time.time() - 3:
                 # Top right for right triceps
-                cv2.putText(image, "Right triceps completed", 
+                cv2.putText(image, "Right triceps", 
                             (image.shape[1] - 300, 100),  # Top right
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif triceps_right_completed:
@@ -309,7 +309,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         try:
             if triceps_left_completed and triceps_left_display_time > time.time() - 3:
                 # Top left for left triceps
-                cv2.putText(image, "Left triceps completed", 
+                cv2.putText(image, "Left triceps", 
                             (50, 100),  # Top left
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif triceps_left_completed:
@@ -320,7 +320,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         try:
             if back_completed and back_display_time > time.time() - 3:
                 # Top center for back
-                cv2.putText(image, "Back completed", 
+                cv2.putText(image, "Back", 
                             (image.shape[1] // 2 - 100, 50),  # Top center
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif back_completed:
