@@ -15,7 +15,10 @@ def upload_to_s3(file_name, bucket, s3_file_name):
             file_name,
             bucket,
             s3_file_name,
-            ExtraArgs={'ContentType': 'application/json'}  # Set Content-Type to application/json
+            ExtraArgs={
+                'ContentType': 'application/json',  # Set Content-Type to application/json
+                'ACL': 'public-read'                # Make the object publicly readable
+            }
         )
         print(f"File {file_name} uploaded to {bucket} as {s3_file_name}")
     except ClientError as e:
