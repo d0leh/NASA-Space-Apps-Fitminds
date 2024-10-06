@@ -190,10 +190,14 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             print(e)
             pass
 
-        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                                  mp_drawing.DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=2),
-                                  mp_drawing.DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2))
-        
+        mp_drawing.draw_landmarks(
+            image, 
+            results.pose_landmarks, 
+            mp_pose.POSE_CONNECTIONS,
+            mp_drawing.DrawingSpec(color=(255, 255, 255), thickness=2, circle_radius=2),  # White dots
+            mp_drawing.DrawingSpec(color=(173, 216, 230), thickness=2, circle_radius=2)   # Light blue lines
+        )
+
 
         if squat_counter >= 2:
             completion_dict["squat"] += 1
@@ -260,57 +264,70 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
 
         try:
             if squat_completed and squat_display_time > time.time() - 3:
-                cv2.putText(image, "Squat completed", (50, 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+                # Bottom center for squat
+                cv2.putText(image, "Squat completed", 
+                            (image.shape[1] // 2 - 100, image.shape[0] - 50),  # Bottom center
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif squat_completed:
                 squat_completed = False
         except:
             pass
-        
+
         try:
             if biceps_right_completed and biceps_right_display_time > time.time() - 3:
-                cv2.putText(image, "Right biceps completed", (50, 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+                # Top right for right biceps
+                cv2.putText(image, "Right biceps completed", 
+                            (image.shape[1] - 300, 50),  # Top right
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif biceps_right_completed:
                 biceps_right_completed = False
         except:
             pass
-        
+
         try:
             if biceps_left_completed and biceps_left_display_time > time.time() - 3:
-                cv2.putText(image, "Left biceps completed", (50, 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)    
+                # Top left for left biceps
+                cv2.putText(image, "Left biceps completed", 
+                            (50, 50),  # Top left
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)    
             elif biceps_left_completed:
                 biceps_left_completed = False
         except:
             pass
-        
+
         try:
             if triceps_right_completed and triceps_right_display_time > time.time() - 3:
-                cv2.putText(image, "Right triceps completed", (50, 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+                # Top right for right triceps
+                cv2.putText(image, "Right triceps completed", 
+                            (image.shape[1] - 300, 100),  # Top right
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif triceps_right_completed:
                 triceps_right_completed = False
         except:
             pass
-        
+
         try:
             if triceps_left_completed and triceps_left_display_time > time.time() - 3:
-                cv2.putText(image, "Left triceps completed", (50, 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+                # Top left for left triceps
+                cv2.putText(image, "Left triceps completed", 
+                            (50, 100),  # Top left
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif triceps_left_completed:
                 triceps_left_completed = False
         except:
             pass
-        
+
         try:
             if back_completed and back_display_time > time.time() - 3:
-                cv2.putText(image, "Back completed", (50, 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+                # Top center for back
+                cv2.putText(image, "Back completed", 
+                            (image.shape[1] // 2 - 100, 50),  # Top center
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
             elif back_completed:
                 back_completed = False
         except:
             pass
+
 
         # write the dict into a json file called exercise.json
         with open("exercise.json", "w") as f:
